@@ -1,0 +1,3 @@
+C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/cmake-build-debug/CMakeFiles/Project2Zabawa.dir
+C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/cmake-build-debug/CMakeFiles/rebuild_cache.dir
