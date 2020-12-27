@@ -80,7 +80,22 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/Board.cpp">
+			<Option target="Project2Zabawa"/>
+		</Unit>
+		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/Board.h">
+			<Option target="Project2Zabawa"/>
+		</Unit>
+		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/Pawn.cpp">
+			<Option target="Project2Zabawa"/>
+		</Unit>
+		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/Pawn.h">
+			<Option target="Project2Zabawa"/>
+		</Unit>
 		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/main.cpp">
+			<Option target="Project2Zabawa"/>
+		</Unit>
+		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/main.h">
 			<Option target="Project2Zabawa"/>
 		</Unit>
 		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/CMakeLists.txt">

@@ -122,6 +122,60 @@ Project2Zabawa/fast:
 	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/build
 .PHONY : Project2Zabawa/fast
 
+Board.obj: Board.cpp.obj
+
+.PHONY : Board.obj
+
+# target to build an object file
+Board.cpp.obj:
+	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/Board.cpp.obj
+.PHONY : Board.cpp.obj
+
+Board.i: Board.cpp.i
+
+.PHONY : Board.i
+
+# target to preprocess a source file
+Board.cpp.i:
+	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/Board.cpp.i
+.PHONY : Board.cpp.i
+
+Board.s: Board.cpp.s
+
+.PHONY : Board.s
+
+# target to generate assembly for a file
+Board.cpp.s:
+	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/Board.cpp.s
+.PHONY : Board.cpp.s
+
+Pawn.obj: Pawn.cpp.obj
+
+.PHONY : Pawn.obj
+
+# target to build an object file
+Pawn.cpp.obj:
+	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/Pawn.cpp.obj
+.PHONY : Pawn.cpp.obj
+
+Pawn.i: Pawn.cpp.i
+
+.PHONY : Pawn.i
+
+# target to preprocess a source file
+Pawn.cpp.i:
+	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/Pawn.cpp.i
+.PHONY : Pawn.cpp.i
+
+Pawn.s: Pawn.cpp.s
+
+.PHONY : Pawn.s
+
+# target to generate assembly for a file
+Pawn.cpp.s:
+	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/Pawn.cpp.s
+.PHONY : Pawn.cpp.s
+
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -158,6 +212,12 @@ help:
 	@echo ... Project2Zabawa
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... Board.obj
+	@echo ... Board.i
+	@echo ... Board.s
+	@echo ... Pawn.obj
+	@echo ... Pawn.i
+	@echo ... Pawn.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
