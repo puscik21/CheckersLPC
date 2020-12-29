@@ -3,12 +3,12 @@
 
 CMakeFiles/Project2Zabawa.dir/Board.cpp.obj: ../Board.cpp
 CMakeFiles/Project2Zabawa.dir/Board.cpp.obj: ../Board.h
-CMakeFiles/Project2Zabawa.dir/Board.cpp.obj: ../Pawn.h
+CMakeFiles/Project2Zabawa.dir/Board.cpp.obj: ../Field.h
 
-CMakeFiles/Project2Zabawa.dir/Pawn.cpp.obj: ../Pawn.cpp
-CMakeFiles/Project2Zabawa.dir/Pawn.cpp.obj: ../Pawn.h
+CMakeFiles/Project2Zabawa.dir/Field.cpp.obj: ../Field.cpp
+CMakeFiles/Project2Zabawa.dir/Field.cpp.obj: ../Field.h
 
 CMakeFiles/Project2Zabawa.dir/main.cpp.obj: ../Board.h
-CMakeFiles/Project2Zabawa.dir/main.cpp.obj: ../Pawn.h
+CMakeFiles/Project2Zabawa.dir/main.cpp.obj: ../Field.h
 CMakeFiles/Project2Zabawa.dir/main.cpp.obj: ../main.cpp
 

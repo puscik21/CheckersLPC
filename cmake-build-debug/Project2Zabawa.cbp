@@ -86,10 +86,10 @@
 		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/Board.h">
 			<Option target="Project2Zabawa"/>
 		</Unit>
-		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/Pawn.cpp">
+		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/Field.cpp">
 			<Option target="Project2Zabawa"/>
 		</Unit>
-		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/Pawn.h">
+		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/Field.h">
 			<Option target="Project2Zabawa"/>
 		</Unit>
 		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/main.cpp">

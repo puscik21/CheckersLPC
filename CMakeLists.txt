@@ -3,4 +3,4 @@ project(Project2Zabawa)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Project2Zabawa main.cpp Pawn.cpp Pawn.h Board.cpp Board.h)
+add_executable(Project2Zabawa main.cpp Field.cpp Field.h Board.cpp Board.h)

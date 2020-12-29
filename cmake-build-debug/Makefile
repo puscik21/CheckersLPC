@@ -149,32 +149,32 @@ Board.cpp.s:
 	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/Board.cpp.s
 .PHONY : Board.cpp.s
 
-Pawn.obj: Pawn.cpp.obj
+Field.obj: Field.cpp.obj
 
-.PHONY : Pawn.obj
+.PHONY : Field.obj
 
 # target to build an object file
-Pawn.cpp.obj:
-	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/Pawn.cpp.obj
-.PHONY : Pawn.cpp.obj
+Field.cpp.obj:
+	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/Field.cpp.obj
+.PHONY : Field.cpp.obj
 
-Pawn.i: Pawn.cpp.i
+Field.i: Field.cpp.i
 
-.PHONY : Pawn.i
+.PHONY : Field.i
 
 # target to preprocess a source file
-Pawn.cpp.i:
-	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/Pawn.cpp.i
-.PHONY : Pawn.cpp.i
+Field.cpp.i:
+	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/Field.cpp.i
+.PHONY : Field.cpp.i
 
-Pawn.s: Pawn.cpp.s
+Field.s: Field.cpp.s
 
-.PHONY : Pawn.s
+.PHONY : Field.s
 
 # target to generate assembly for a file
-Pawn.cpp.s:
-	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/Pawn.cpp.s
-.PHONY : Pawn.cpp.s
+Field.cpp.s:
+	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/Field.cpp.s
+.PHONY : Field.cpp.s
 
 main.obj: main.cpp.obj
 
@@ -215,9 +215,9 @@ help:
 	@echo ... Board.obj
 	@echo ... Board.i
 	@echo ... Board.s
-	@echo ... Pawn.obj
-	@echo ... Pawn.i
-	@echo ... Pawn.s
+	@echo ... Field.obj
+	@echo ... Field.i
+	@echo ... Field.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

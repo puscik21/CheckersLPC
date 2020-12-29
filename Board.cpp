@@ -1,13 +1,14 @@
 #include <iostream>
 #include <vector>
-#include "Pawn.h"
+#include <math.h>
+#include "Field.h"
 #include "Board.h"
 
 using namespace std;
 
 Board::Board() {
-    vector<vector<Pawn>> iDontKnowHowToMakeItInOneLine (10, vector<Pawn> (0));
-    pawns = iDontKnowHowToMakeItInOneLine;
+    vector<vector<Field>> iDontKnowHowToMakeItInOneLine(10, vector<Field>(0));
+    fields = iDontKnowHowToMakeItInOneLine;
 }
 
 void Board::printBoard() {
@@ -30,33 +31,62 @@ string Board::getField(bool isFieldBlack) {
     }
 }
 
-void Board::printPawns() {
+void Board::printFields() {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 10; j++) {
-            cout << pawns[i][j].getPlayerNumber() << "|";
+            cout << fields[i][j].getPlayerNumber() << "|";
         }
         cout << endl;
     }
 }
 
-void Board::preparePawns() {
-    addPawns(0, -1);
+void Board::prepareFields() {
+    addFields(0, -1);
     for (int i = 4; i < 6; i++) {
         for (int j = 0; j < 10; j++) {
-            pawns[i].push_back(Pawn(0));
+            fields[i].push_back(Field(0));
         }
     }
-    addPawns(6, 1);
+    addFields(6, 1);
 }
 
-void Board::addPawns(int startRow, int pawnValue) {
+void Board::addFields(int startRow, int pawnValue) {
     bool isPawnPosition = true;
     for (int i = startRow; i < startRow + 4; i++) {
         isPawnPosition = !isPawnPosition;
         for (int j = 0; j < 10; j++) {
             int playerNumber = isPawnPosition * pawnValue;
-            pawns[i].push_back(Pawn(playerNumber));
+            fields[i].push_back(Field(playerNumber));
             isPawnPosition = !isPawnPosition;
         }
     }
 }
+
+bool Board::isMoveAvailable(int fromRow, int fromCol, int toRow, int toCol) {
+    Field fromField = fields[fromRow][fromCol];
+    Field toField = fields[toRow][toCol];
+    if (!fromField.isItPlayerPawn() || !toField.isItEmptyField()) {
+        return false;
+    }
+    return (isSimpleMoveAvailable(fromRow, fromCol, toRow, toCol)) || (isJumpMoveAvailable(fromRow, fromCol, toRow, toCol));
+}
+
+bool Board::isSimpleMoveAvailable(int fromRow, int fromCol, int toRow, int toCol) {
+    return fromRow - toRow == 1 && abs(fromCol - toCol) == 1;
+}
+
+bool Board::isJumpMoveAvailable(int fromRow, int fromCol, int toRow, int toCol) {
+    if (fromRow - toRow == 2 && abs(fromCol - toCol) == 2) {
+        int betweenCol;
+        if (fromCol > toCol) {
+            betweenCol = fromCol - 1;
+        } else {
+            betweenCol = fromCol + 1;
+        }
+        Field betweenField = fields[fromRow - 1][betweenCol];
+        return betweenField.isItEnemyPawn();
+    }
+    return false;
+}
+
+
