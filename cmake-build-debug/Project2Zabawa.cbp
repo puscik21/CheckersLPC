@@ -95,9 +95,6 @@
 		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/main.cpp">
 			<Option target="Project2Zabawa"/>
 		</Unit>
-		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/main.h">
-			<Option target="Project2Zabawa"/>
-		</Unit>
 		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

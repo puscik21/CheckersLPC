@@ -4,11 +4,12 @@
 using namespace std;
 
 class Board {
-    int ** pawns;
+    vector<vector<int>> pawns;
+//    int ** pawns;
 public:
     Board();
 
-    int **addPawns(int startRow, int pawnValue);
+    void addPawns(int startRow, int pawnValue);
 
     string getField(bool isFieldBlack);
 
@@ -16,7 +17,7 @@ public:
 
     void printPawns();
 
-    int **preparePawns();
+    void preparePawns();
 };
 
 

@@ -1,14 +1,13 @@
 #include <iostream>
+#include <vector>
 #include "Pawn.h"
 #include "Board.h"
 
 using namespace std;
 
 Board::Board() {
-    pawns = new int *[10];
-    for (int i = 0; i < 10; i++) {
-        pawns[i] = new int[10];
-    }
+    vector<vector<int>> iDontKnowHowToMakeItInOneLine (10, vector<int> (0));
+    pawns = iDontKnowHowToMakeItInOneLine;
 }
 
 void Board::printBoard() {
@@ -40,25 +39,23 @@ void Board::printPawns() {
     }
 }
 
-int **Board::preparePawns() {
+void Board::preparePawns() {
     addPawns(0, -1);
     for (int i = 4; i < 6; i++) {
         for (int j = 0; j < 10; j++) {
-            pawns[i][j] = 0;
+            pawns[i].push_back(0);
         }
     }
     addPawns(6, 1);
-    return pawns;
 }
 
-int **Board::addPawns(int startRow, int pawnValue) {
+void Board::addPawns(int startRow, int pawnValue) {
     bool isPawnPosition = true;
-    for (int i = startRow; i < 10; i++) {
+    for (int i = startRow; i < startRow + 4; i++) {
         isPawnPosition = !isPawnPosition;
         for (int j = 0; j < 10; j++) {
-            pawns[i][j] = isPawnPosition * pawnValue;
+            pawns[i].push_back(isPawnPosition * pawnValue);
             isPawnPosition = !isPawnPosition;
         }
     }
-    return pawns;
 }
