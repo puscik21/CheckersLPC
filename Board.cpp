@@ -89,4 +89,17 @@ bool Board::isJumpMoveAvailable(int fromRow, int fromCol, int toRow, int toCol) 
     return false;
 }
 
+void Board::makePlayerMove(int fromRow, int fromCol, int toRow, int toCol) {
+    // TODO need to make 1 big method, it will call isSimpleMoveAvailable and isJumpMoveAvailable and then make move
+    //  also return true if move was available, otherwise false (player will need to make move again)
+    fields[fromRow][fromCol] = Field(0);
+    fields[toRow][toCol] = Field(1);
+}
+
+void Board::makeEnemyMove(int fromRow, int fromCol, int toRow, int toCol) {
+    // TODO it will probably comes with numbers that see enemy - make method to changed numbers by some symmetry
+    fields[fromRow][fromCol] = Field(0);
+    fields[toRow][toCol] = Field(-1);
+}
+
 

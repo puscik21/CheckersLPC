@@ -69,18 +69,18 @@ CMakeFiles/Project2Zabawa.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project2Zabawa.dir/main.cpp.s"
 	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\Comarch\Desktop\studia\semestr 2\Techniki mikroprocesorowe\projekt 2\CheckersLPC\main.cpp" -o CMakeFiles\Project2Zabawa.dir\main.cpp.s
 
-CMakeFiles/Project2Zabawa.dir/Pawn.cpp.obj: CMakeFiles/Project2Zabawa.dir/flags.make
-CMakeFiles/Project2Zabawa.dir/Pawn.cpp.obj: ../Pawn.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\Comarch\Desktop\studia\semestr 2\Techniki mikroprocesorowe\projekt 2\CheckersLPC\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Project2Zabawa.dir/Pawn.cpp.obj"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Project2Zabawa.dir\Pawn.cpp.obj -c "C:\Users\Comarch\Desktop\studia\semestr 2\Techniki mikroprocesorowe\projekt 2\CheckersLPC\Pawn.cpp"
+CMakeFiles/Project2Zabawa.dir/Field.cpp.obj: CMakeFiles/Project2Zabawa.dir/flags.make
+CMakeFiles/Project2Zabawa.dir/Field.cpp.obj: ../Field.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\Comarch\Desktop\studia\semestr 2\Techniki mikroprocesorowe\projekt 2\CheckersLPC\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Project2Zabawa.dir/Field.cpp.obj"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Project2Zabawa.dir\Field.cpp.obj -c "C:\Users\Comarch\Desktop\studia\semestr 2\Techniki mikroprocesorowe\projekt 2\CheckersLPC\Field.cpp"
 
-CMakeFiles/Project2Zabawa.dir/Pawn.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Project2Zabawa.dir/Pawn.cpp.i"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\Comarch\Desktop\studia\semestr 2\Techniki mikroprocesorowe\projekt 2\CheckersLPC\Pawn.cpp" > CMakeFiles\Project2Zabawa.dir\Pawn.cpp.i
+CMakeFiles/Project2Zabawa.dir/Field.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Project2Zabawa.dir/Field.cpp.i"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\Comarch\Desktop\studia\semestr 2\Techniki mikroprocesorowe\projekt 2\CheckersLPC\Field.cpp" > CMakeFiles\Project2Zabawa.dir\Field.cpp.i
 
-CMakeFiles/Project2Zabawa.dir/Pawn.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project2Zabawa.dir/Pawn.cpp.s"
-	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\Comarch\Desktop\studia\semestr 2\Techniki mikroprocesorowe\projekt 2\CheckersLPC\Pawn.cpp" -o CMakeFiles\Project2Zabawa.dir\Pawn.cpp.s
+CMakeFiles/Project2Zabawa.dir/Field.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project2Zabawa.dir/Field.cpp.s"
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\Comarch\Desktop\studia\semestr 2\Techniki mikroprocesorowe\projekt 2\CheckersLPC\Field.cpp" -o CMakeFiles\Project2Zabawa.dir\Field.cpp.s
 
 CMakeFiles/Project2Zabawa.dir/Board.cpp.obj: CMakeFiles/Project2Zabawa.dir/flags.make
 CMakeFiles/Project2Zabawa.dir/Board.cpp.obj: ../Board.cpp
@@ -98,14 +98,14 @@ CMakeFiles/Project2Zabawa.dir/Board.cpp.s: cmake_force
 # Object files for target Project2Zabawa
 Project2Zabawa_OBJECTS = \
 "CMakeFiles/Project2Zabawa.dir/main.cpp.obj" \
-"CMakeFiles/Project2Zabawa.dir/Pawn.cpp.obj" \
+"CMakeFiles/Project2Zabawa.dir/Field.cpp.obj" \
 "CMakeFiles/Project2Zabawa.dir/Board.cpp.obj"
 
 # External object files for target Project2Zabawa
 Project2Zabawa_EXTERNAL_OBJECTS =
 
 Project2Zabawa.exe: CMakeFiles/Project2Zabawa.dir/main.cpp.obj
-Project2Zabawa.exe: CMakeFiles/Project2Zabawa.dir/Pawn.cpp.obj
+Project2Zabawa.exe: CMakeFiles/Project2Zabawa.dir/Field.cpp.obj
 Project2Zabawa.exe: CMakeFiles/Project2Zabawa.dir/Board.cpp.obj
 Project2Zabawa.exe: CMakeFiles/Project2Zabawa.dir/build.make
 Project2Zabawa.exe: CMakeFiles/Project2Zabawa.dir/linklibs.rsp

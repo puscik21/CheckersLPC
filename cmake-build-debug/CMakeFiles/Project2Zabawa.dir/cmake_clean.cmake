@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Project2Zabawa.dir/Board.cpp.obj"
-  "CMakeFiles/Project2Zabawa.dir/Pawn.cpp.obj"
+  "CMakeFiles/Project2Zabawa.dir/Field.cpp.obj"
   "CMakeFiles/Project2Zabawa.dir/main.cpp.obj"
   "Project2Zabawa.exe"
   "Project2Zabawa.exe.manifest"

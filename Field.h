@@ -7,7 +7,7 @@ private:
     int playerNumber;
 public:
     Field();
-    explicit Field(int playerNumber2);
+    explicit Field(int playerNumber);
     int getPlayerNumber();
     bool isItPlayerPawn();
     bool isItEnemyPawn();

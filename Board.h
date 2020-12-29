@@ -25,6 +25,10 @@ public:
     static bool isSimpleMoveAvailable(int fromRow, int fromCol, int toRow, int toCol);
 
     bool isJumpMoveAvailable(int fromRow, int fromCol, int toRow, int toCol);
+
+    void makePlayerMove(int fromRow, int fromCol, int toRow, int toCol);
+
+    void makeEnemyMove(int fromRow, int fromCol, int toRow, int toCol);
 };
 
 

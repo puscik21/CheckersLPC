@@ -5,8 +5,8 @@ Field::Field() {
     playerNumber = 0;
 }
 
-Field::Field(int playerNumber2) {
-    playerNumber = playerNumber2;
+Field::Field(int playerNumber) {
+    this->playerNumber = playerNumber;
 }
 
 int Field::getPlayerNumber() {
