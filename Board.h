@@ -1,11 +1,11 @@
 #ifndef PROJECT2ZABAWA_BOARD_H
 #define PROJECT2ZABAWA_BOARD_H
+#include "Pawn.h"
 
 using namespace std;
 
 class Board {
-    vector<vector<int>> pawns;
-//    int ** pawns;
+    vector<vector<Pawn>> pawns;
 public:
     Board();
 

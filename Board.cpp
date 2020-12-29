@@ -6,7 +6,7 @@
 using namespace std;
 
 Board::Board() {
-    vector<vector<int>> iDontKnowHowToMakeItInOneLine (10, vector<int> (0));
+    vector<vector<Pawn>> iDontKnowHowToMakeItInOneLine (10, vector<Pawn> (0));
     pawns = iDontKnowHowToMakeItInOneLine;
 }
 
@@ -33,7 +33,7 @@ string Board::getField(bool isFieldBlack) {
 void Board::printPawns() {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 10; j++) {
-            cout << pawns[i][j] << "|";
+            cout << pawns[i][j].getPlayerNumber() << "|";
         }
         cout << endl;
     }
@@ -43,7 +43,7 @@ void Board::preparePawns() {
     addPawns(0, -1);
     for (int i = 4; i < 6; i++) {
         for (int j = 0; j < 10; j++) {
-            pawns[i].push_back(0);
+            pawns[i].push_back(Pawn(0));
         }
     }
     addPawns(6, 1);
@@ -54,7 +54,8 @@ void Board::addPawns(int startRow, int pawnValue) {
     for (int i = startRow; i < startRow + 4; i++) {
         isPawnPosition = !isPawnPosition;
         for (int j = 0; j < 10; j++) {
-            pawns[i].push_back(isPawnPosition * pawnValue);
+            int playerNumber = isPawnPosition * pawnValue;
+            pawns[i].push_back(Pawn(playerNumber));
             isPawnPosition = !isPawnPosition;
         }
     }
