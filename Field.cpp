@@ -24,3 +24,7 @@ bool Field::isItEnemyPawn() {
 bool Field::isItEmptyField() {
     return playerNumber == 0;
 }
+
+void Field::setPlayerNumber(int playerNumber) {
+    this->playerNumber = playerNumber;
+}

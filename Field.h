@@ -7,10 +7,17 @@ private:
     int playerNumber;
 public:
     Field();
+
     explicit Field(int playerNumber);
+
     int getPlayerNumber();
+
+    void setPlayerNumber(int playerNumber);
+
     bool isItPlayerPawn();
+
     bool isItEnemyPawn();
+
     bool isItEmptyField();
 };
 

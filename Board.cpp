@@ -38,6 +38,7 @@ void Board::printFields() {
         }
         cout << endl;
     }
+    cout << endl;
 }
 
 void Board::prepareFields() {
@@ -62,13 +63,11 @@ void Board::addFields(int startRow, int pawnValue) {
     }
 }
 
-bool Board::isMoveAvailable(int fromRow, int fromCol, int toRow, int toCol) {
+// TODO probably later it will be like isToEmptyFieldMove() - cuz only player pawn will be able to choose
+bool Board::isPlayerToEmptyMove(int fromRow, int fromCol, int toRow, int toCol) {
     Field fromField = fields[fromRow][fromCol];
     Field toField = fields[toRow][toCol];
-    if (!fromField.isItPlayerPawn() || !toField.isItEmptyField()) {
-        return false;
-    }
-    return (isSimpleMoveAvailable(fromRow, fromCol, toRow, toCol)) || (isJumpMoveAvailable(fromRow, fromCol, toRow, toCol));
+    return fromField.isItPlayerPawn() && toField.isItEmptyField();
 }
 
 bool Board::isSimpleMoveAvailable(int fromRow, int fromCol, int toRow, int toCol) {
@@ -77,29 +76,51 @@ bool Board::isSimpleMoveAvailable(int fromRow, int fromCol, int toRow, int toCol
 
 bool Board::isJumpMoveAvailable(int fromRow, int fromCol, int toRow, int toCol) {
     if (fromRow - toRow == 2 && abs(fromCol - toCol) == 2) {
-        int betweenCol;
-        if (fromCol > toCol) {
-            betweenCol = fromCol - 1;
-        } else {
-            betweenCol = fromCol + 1;
-        }
-        Field betweenField = fields[fromRow - 1][betweenCol];
-        return betweenField.isItEnemyPawn();
+        Field *betweenField = getBetweenField(fromRow, fromCol, toRow, toCol);
+        return betweenField->isItEnemyPawn();
     }
     return false;
 }
 
-void Board::makePlayerMove(int fromRow, int fromCol, int toRow, int toCol) {
-    // TODO need to make 1 big method, it will call isSimpleMoveAvailable and isJumpMoveAvailable and then make move
-    //  also return true if move was available, otherwise false (player will need to make move again)
-    fields[fromRow][fromCol] = Field(0);
-    fields[toRow][toCol] = Field(1);
+Field *Board::getBetweenField(int fromRow, int fromCol, int toRow, int toCol) {
+    int betweenCol;
+    if (fromCol > toCol) {
+        betweenCol = fromCol - 1;
+    } else {
+        betweenCol = fromCol + 1;
+    }
+    return &fields[fromRow - 1][betweenCol];
+}
+
+bool Board::makePlayerMove(int fromRow, int fromCol, int toRow, int toCol) {
+    if (!isPlayerToEmptyMove(fromRow, fromCol, toRow, toCol)) {
+        return false;
+    }
+    if (isSimpleMoveAvailable(fromRow, fromCol, toRow, toCol)) {
+        makeMove(fromRow, fromCol, toRow, toCol);
+    } else if (isJumpMoveAvailable(fromRow, fromCol, toRow, toCol)) {
+        makeCaptureMove(fromRow, fromCol, toRow, toCol);
+    } else {
+        return false;
+    }
+    return true;
+}
+
+void Board::makeMove(int fromRow, int fromCol, int toRow, int toCol) {
+    int playerNumber = fields[fromRow][fromCol].getPlayerNumber();
+    fields[fromRow][fromCol].setPlayerNumber(0);
+    fields[toRow][toCol].setPlayerNumber(playerNumber);
+}
+
+void Board::makeCaptureMove(int fromRow, int fromCol, int toRow, int toCol) {
+    Field *betweenField = getBetweenField(fromRow, fromCol, toRow, toCol);
+    betweenField->setPlayerNumber(0);
+    makeMove(fromRow, fromCol, toRow, toCol);
 }
 
 void Board::makeEnemyMove(int fromRow, int fromCol, int toRow, int toCol) {
     // TODO it will probably comes with numbers that see enemy - make method to changed numbers by some symmetry
-    fields[fromRow][fromCol] = Field(0);
-    fields[toRow][toCol] = Field(-1);
+    makeMove(fromRow, fromCol, toRow, toCol);
 }
 
 
