@@ -1,6 +1,10 @@
 #ifndef PROJECT2ZABAWA_MOVECORDS_H
 #define PROJECT2ZABAWA_MOVECORDS_H
 
+#include <iostream>
+#include <vector>
+
+using namespace std;
 
 class MoveCords {
 private:
@@ -10,6 +14,10 @@ private:
     int toCol;
 public:
     MoveCords(int fromRow, int fromCol, int toRow, int toCol);
+
+    explicit MoveCords(vector<int> cordsVector);
+
+    static MoveCords fromString(string cordText);
 
     int getFromRow() const;
 

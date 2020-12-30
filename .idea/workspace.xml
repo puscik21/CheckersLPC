@@ -11,24 +11,17 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0256a181-1a28-47a7-8ced-c3f4d2389cfa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/MoveCords.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MoveCords.h" afterDir="false" />
+    <list default="true" id="0256a181-1a28-47a7-8ced-c3f4d2389cfa" name="Default Changelist" comment="Reading cords from string value">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Board.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Board.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Board.h" beforeDir="false" afterPath="$PROJECT_DIR$/Board.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/cmake_clean.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MoveCords.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MoveCords.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MoveCords.h" beforeDir="false" afterPath="$PROJECT_DIR$/MoveCords.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/depend.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/main.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/main.cpp.obj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/objects.a" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/objects.a" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/objects1.rsp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/objects1.rsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Project2Zabawa.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Project2Zabawa.cbp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Project2Zabawa.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Project2Zabawa.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
@@ -75,7 +68,7 @@
       <updated>1609069976816</updated>
       <workItem from="1609069978015" duration="6852000" />
       <workItem from="1609247971287" duration="10812000" />
-      <workItem from="1609341752523" duration="5372000" />
+      <workItem from="1609341752523" duration="9182000" />
     </task>
     <task id="LOCAL-00001" summary="Emigration to classes">
       <created>1609104350992</created>
@@ -119,7 +112,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609355450911</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Added MoveCords class to simplify movement methods">
+      <created>1609356472937</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1609356472937</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -132,7 +132,8 @@
     <MESSAGE value="Checking if move is possible" />
     <MESSAGE value="Some basic movement of player and enemy pawns" />
     <MESSAGE value="Player move can now kill an enemy pawn" />
-    <option name="LAST_COMMIT_MESSAGE" value="Player move can now kill an enemy pawn" />
+    <MESSAGE value="Added MoveCords class to simplify movement methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added MoveCords class to simplify movement methods" />
   </component>
   <component name="WindowStateProjectService">
     <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1609101332759">
@@ -152,50 +153,54 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1038" y="343" key="#xdebugger.evaluate/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609252381700" />
-    <state x="478" y="114" key="CommitChangelistDialog2" timestamp="1609355449083">
+    <state x="478" y="114" key="CommitChangelistDialog2" timestamp="1609360209426">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="478" y="114" key="CommitChangelistDialog2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609355449083" />
+    <state x="478" y="114" key="CommitChangelistDialog2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609360209426" />
+    <state x="177" y="86" key="DiffContextDialog" timestamp="1609360207979">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="177" y="86" key="DiffContextDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609360207979" />
     <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1609099404652">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609099404652" />
-    <state width="1877" height="267" key="GridCell.Tab.0.bottom" timestamp="1609356351784">
+    <state width="1877" height="291" key="GridCell.Tab.0.bottom" timestamp="1609360157192">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1609099468928" />
-    <state width="1877" height="267" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609356351784" />
-    <state width="1877" height="267" key="GridCell.Tab.0.center" timestamp="1609356351784">
+    <state width="1877" height="291" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609360157192" />
+    <state width="1877" height="291" key="GridCell.Tab.0.center" timestamp="1609360157192">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1609099468928" />
-    <state width="1877" height="267" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609356351784" />
-    <state width="1877" height="267" key="GridCell.Tab.0.left" timestamp="1609356351784">
+    <state width="1877" height="291" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609360157192" />
+    <state width="1877" height="291" key="GridCell.Tab.0.left" timestamp="1609360157192">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1609099468928" />
-    <state width="1877" height="267" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609356351784" />
-    <state width="1877" height="267" key="GridCell.Tab.0.right" timestamp="1609356351784">
+    <state width="1877" height="291" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609360157192" />
+    <state width="1877" height="291" key="GridCell.Tab.0.right" timestamp="1609360157192">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1609099468928" />
-    <state width="1877" height="267" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609356351784" />
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1609278304705">
+    <state width="1877" height="291" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609360157192" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1609359547540">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609278304705" />
-    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1609278304705">
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609359547540" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1609359547539">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609278304705" />
-    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1609278304705">
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609359547539" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1609359547539">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609278304705" />
-    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1609278304705">
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609359547539" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1609359547540">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609278304705" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1609359547540" />
     <state x="627" y="231" key="RollbackChangesDialog" timestamp="1609104377596">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

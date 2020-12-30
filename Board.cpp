@@ -72,7 +72,8 @@ bool Board::isPlayerToEmptyMove(MoveCords moveCords) {
 }
 
 bool Board::isSimpleMoveAvailable(MoveCords moveCords) {
-    return moveCords.getFromRow() - moveCords.getToRow() == 1 && abs(moveCords.getFromCol() - moveCords.getToCol()) == 1;
+    return moveCords.getFromRow() - moveCords.getToRow() == 1 &&
+           abs(moveCords.getFromCol() - moveCords.getToCol()) == 1;
 }
 
 bool Board::isJumpMoveAvailable(MoveCords moveCords) {
@@ -119,8 +120,9 @@ void Board::makeCaptureMove(MoveCords moveCords) {
     makeMove(moveCords);
 }
 
-void Board::makeEnemyMove(MoveCords moveCords) {
-    // TODO it will probably comes with numbers that see enemy - make method to changed numbers by some symmetry
+void Board::makeEnemyMove(string cordText) {
+    MoveCords moveCords = MoveCords::fromString(std::move(cordText));
+    // TODO make some symmetry of cords for enemy move
     makeMove(moveCords);
 }
 

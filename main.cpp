@@ -6,16 +6,19 @@ using namespace std;
 
 int main() {
     Board board = Board();
-//    board.printBoard();
+////    board.printBoard();
     board.prepareFields();
+//
+//    board.makeEnemyMove(MoveCords(3, 0, 4, 1));
+//    board.printFields();
+//    board.makeEnemyMove(MoveCords(4, 1, 5, 2));
+//    board.printFields();
+//
+//    bool wasMoveAvailable = board.makePlayerMove(MoveCords(6, 1, 4, 3));
+//    cout << "wasMoveAvailable: " << wasMoveAvailable << endl;
+//    board.printFields();
 
-    board.makeEnemyMove(MoveCords(3, 0, 4, 1));
-    board.printFields();
-    board.makeEnemyMove(MoveCords(4, 1, 5, 2));
-    board.printFields();
-
-    bool wasMoveAvailable = board.makePlayerMove(MoveCords(6, 1, 4, 3));
-    cout << "wasMoveAvailable: " << wasMoveAvailable << endl;
+    board.makeEnemyMove("6,1,5,2");
     board.printFields();
 
     return 0;

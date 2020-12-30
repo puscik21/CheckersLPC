@@ -35,7 +35,7 @@ public:
 
     void makeCaptureMove(MoveCords moveCords);
 
-    void makeEnemyMove(MoveCords moveCords);
+    void makeEnemyMove(string cordText);
 };
 
 
