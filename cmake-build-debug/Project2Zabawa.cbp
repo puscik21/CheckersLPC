@@ -92,6 +92,12 @@
 		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/Field.h">
 			<Option target="Project2Zabawa"/>
 		</Unit>
+		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/MoveCords.cpp">
+			<Option target="Project2Zabawa"/>
+		</Unit>
+		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/MoveCords.h">
+			<Option target="Project2Zabawa"/>
+		</Unit>
 		<Unit filename="C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/main.cpp">
 			<Option target="Project2Zabawa"/>
 		</Unit>

@@ -9,12 +9,12 @@ int main() {
 //    board.printBoard();
     board.prepareFields();
 
-    board.makeEnemyMove(3, 0, 4, 1);
+    board.makeEnemyMove(MoveCords(3, 0, 4, 1));
     board.printFields();
-    board.makeEnemyMove(4, 1, 5, 2);
+    board.makeEnemyMove(MoveCords(4, 1, 5, 2));
     board.printFields();
 
-    bool wasMoveAvailable = board.makePlayerMove(6, 1, 4, 3);
+    bool wasMoveAvailable = board.makePlayerMove(MoveCords(6, 1, 4, 3));
     cout << "wasMoveAvailable: " << wasMoveAvailable << endl;
     board.printFields();
 

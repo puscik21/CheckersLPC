@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/Board.cpp" "C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/Board.cpp.obj"
   "C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/Field.cpp" "C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/Field.cpp.obj"
+  "C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/MoveCords.cpp" "C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/MoveCords.cpp.obj"
   "C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/main.cpp" "C:/Users/Comarch/Desktop/studia/semestr 2/Techniki mikroprocesorowe/projekt 2/CheckersLPC/cmake-build-debug/CMakeFiles/Project2Zabawa.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

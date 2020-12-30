@@ -3,6 +3,7 @@
 #include <math.h>
 #include "Field.h"
 #include "Board.h"
+#include "MoveCords.h"
 
 using namespace std;
 
@@ -64,63 +65,63 @@ void Board::addFields(int startRow, int pawnValue) {
 }
 
 // TODO probably later it will be like isToEmptyFieldMove() - cuz only player pawn will be able to choose
-bool Board::isPlayerToEmptyMove(int fromRow, int fromCol, int toRow, int toCol) {
-    Field fromField = fields[fromRow][fromCol];
-    Field toField = fields[toRow][toCol];
+bool Board::isPlayerToEmptyMove(MoveCords moveCords) {
+    Field fromField = fields[moveCords.getFromRow()][moveCords.getFromCol()];
+    Field toField = fields[moveCords.getToRow()][moveCords.getToCol()];
     return fromField.isItPlayerPawn() && toField.isItEmptyField();
 }
 
-bool Board::isSimpleMoveAvailable(int fromRow, int fromCol, int toRow, int toCol) {
-    return fromRow - toRow == 1 && abs(fromCol - toCol) == 1;
+bool Board::isSimpleMoveAvailable(MoveCords moveCords) {
+    return moveCords.getFromRow() - moveCords.getToRow() == 1 && abs(moveCords.getFromCol() - moveCords.getToCol()) == 1;
 }
 
-bool Board::isJumpMoveAvailable(int fromRow, int fromCol, int toRow, int toCol) {
-    if (fromRow - toRow == 2 && abs(fromCol - toCol) == 2) {
-        Field *betweenField = getBetweenField(fromRow, fromCol, toRow, toCol);
+bool Board::isJumpMoveAvailable(MoveCords moveCords) {
+    if (moveCords.getFromRow() - moveCords.getToRow() == 2 && abs(moveCords.getFromCol() - moveCords.getToCol()) == 2) {
+        Field *betweenField = getBetweenField(moveCords);
         return betweenField->isItEnemyPawn();
     }
     return false;
 }
 
-Field *Board::getBetweenField(int fromRow, int fromCol, int toRow, int toCol) {
+Field *Board::getBetweenField(MoveCords moveCords) {
     int betweenCol;
-    if (fromCol > toCol) {
-        betweenCol = fromCol - 1;
+    if (moveCords.getFromCol() > moveCords.getToCol()) {
+        betweenCol = moveCords.getFromCol() - 1;
     } else {
-        betweenCol = fromCol + 1;
+        betweenCol = moveCords.getFromCol() + 1;
     }
-    return &fields[fromRow - 1][betweenCol];
+    return &fields[moveCords.getFromRow() - 1][betweenCol];
 }
 
-bool Board::makePlayerMove(int fromRow, int fromCol, int toRow, int toCol) {
-    if (!isPlayerToEmptyMove(fromRow, fromCol, toRow, toCol)) {
+bool Board::makePlayerMove(MoveCords moveCords) {
+    if (!isPlayerToEmptyMove(moveCords)) {
         return false;
     }
-    if (isSimpleMoveAvailable(fromRow, fromCol, toRow, toCol)) {
-        makeMove(fromRow, fromCol, toRow, toCol);
-    } else if (isJumpMoveAvailable(fromRow, fromCol, toRow, toCol)) {
-        makeCaptureMove(fromRow, fromCol, toRow, toCol);
+    if (isSimpleMoveAvailable(moveCords)) {
+        makeMove(moveCords);
+    } else if (isJumpMoveAvailable(moveCords)) {
+        makeCaptureMove(moveCords);
     } else {
         return false;
     }
     return true;
 }
 
-void Board::makeMove(int fromRow, int fromCol, int toRow, int toCol) {
-    int playerNumber = fields[fromRow][fromCol].getPlayerNumber();
-    fields[fromRow][fromCol].setPlayerNumber(0);
-    fields[toRow][toCol].setPlayerNumber(playerNumber);
+void Board::makeMove(MoveCords moveCords) {
+    int playerNumber = fields[moveCords.getFromRow()][moveCords.getFromCol()].getPlayerNumber();
+    fields[moveCords.getFromRow()][moveCords.getFromCol()].setPlayerNumber(0);
+    fields[moveCords.getToRow()][moveCords.getToCol()].setPlayerNumber(playerNumber);
 }
 
-void Board::makeCaptureMove(int fromRow, int fromCol, int toRow, int toCol) {
-    Field *betweenField = getBetweenField(fromRow, fromCol, toRow, toCol);
+void Board::makeCaptureMove(MoveCords moveCords) {
+    Field *betweenField = getBetweenField(moveCords);
     betweenField->setPlayerNumber(0);
-    makeMove(fromRow, fromCol, toRow, toCol);
+    makeMove(moveCords);
 }
 
-void Board::makeEnemyMove(int fromRow, int fromCol, int toRow, int toCol) {
+void Board::makeEnemyMove(MoveCords moveCords) {
     // TODO it will probably comes with numbers that see enemy - make method to changed numbers by some symmetry
-    makeMove(fromRow, fromCol, toRow, toCol);
+    makeMove(moveCords);
 }
 
 

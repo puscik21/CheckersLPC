@@ -176,6 +176,33 @@ Field.cpp.s:
 	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/Field.cpp.s
 .PHONY : Field.cpp.s
 
+MoveCords.obj: MoveCords.cpp.obj
+
+.PHONY : MoveCords.obj
+
+# target to build an object file
+MoveCords.cpp.obj:
+	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/MoveCords.cpp.obj
+.PHONY : MoveCords.cpp.obj
+
+MoveCords.i: MoveCords.cpp.i
+
+.PHONY : MoveCords.i
+
+# target to preprocess a source file
+MoveCords.cpp.i:
+	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/MoveCords.cpp.i
+.PHONY : MoveCords.cpp.i
+
+MoveCords.s: MoveCords.cpp.s
+
+.PHONY : MoveCords.s
+
+# target to generate assembly for a file
+MoveCords.cpp.s:
+	$(MAKE) -f CMakeFiles\Project2Zabawa.dir\build.make CMakeFiles/Project2Zabawa.dir/MoveCords.cpp.s
+.PHONY : MoveCords.cpp.s
+
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -218,6 +245,9 @@ help:
 	@echo ... Field.obj
 	@echo ... Field.i
 	@echo ... Field.s
+	@echo ... MoveCords.obj
+	@echo ... MoveCords.i
+	@echo ... MoveCords.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

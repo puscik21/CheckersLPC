@@ -2,6 +2,7 @@
 #define PROJECT2ZABAWA_BOARD_H
 
 #include "Field.h"
+#include "MoveCords.h"
 
 using namespace std;
 
@@ -20,21 +21,21 @@ public:
 
     void prepareFields();
 
-    bool isPlayerToEmptyMove(int fromRow, int fromCol, int toRow, int toCol);
+    bool isPlayerToEmptyMove(MoveCords moveCords);
 
-    static bool isSimpleMoveAvailable(int fromRow, int fromCol, int toRow, int toCol);
+    static bool isSimpleMoveAvailable(MoveCords moveCords);
 
-    bool isJumpMoveAvailable(int fromRow, int fromCol, int toRow, int toCol);
+    bool isJumpMoveAvailable(MoveCords moveCords);
 
-    Field* getBetweenField(int fromRow, int fromCol, int toRow, int toCol);
+    Field *getBetweenField(MoveCords moveCords);
 
-    bool makePlayerMove(int fromRow, int fromCol, int toRow, int toCol);
+    bool makePlayerMove(MoveCords moveCords);
 
-    void makeMove(int fromRow, int fromCol, int toRow, int toCol);
+    void makeMove(MoveCords moveCords);
 
-    void makeCaptureMove(int fromRow, int fromCol, int toRow, int toCol);
+    void makeCaptureMove(MoveCords moveCords);
 
-    void makeEnemyMove(int fromRow, int fromCol, int toRow, int toCol);
+    void makeEnemyMove(MoveCords moveCords);
 };
 
 
