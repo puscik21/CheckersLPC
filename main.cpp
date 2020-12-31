@@ -21,5 +21,7 @@ int main() {
     board.makeEnemyMove("6,1,5,2");
     board.printFields();
 
+    cout << "And the winner is: " << board.checkWinner() << endl;
+
     return 0;
 }

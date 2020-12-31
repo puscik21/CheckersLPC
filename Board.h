@@ -36,6 +36,8 @@ public:
     void makeCaptureMove(MoveCords moveCords);
 
     void makeEnemyMove(string cordText);
+
+    int checkWinner();
 };
 
 

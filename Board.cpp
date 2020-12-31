@@ -126,4 +126,26 @@ void Board::makeEnemyMove(string cordText) {
     makeMove(moveCords);
 }
 
+int Board::checkWinner() {
+    int playerPawns = 0;
+    int enemyPawns = 0;
+    for (const vector<Field> &row : fields) {
+        for (Field field : row) {
+            if (field.getPlayerNumber() > 0) {
+                playerPawns++;
+            } else if (field.getPlayerNumber() < 0) {
+                enemyPawns++;
+            }
+        }
+    }
+
+    if (playerPawns == 0) {
+        return -1;
+    } else if (enemyPawns == 0) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 
