@@ -26,6 +26,8 @@ public:
     int getToRow() const;
 
     int getToCol() const;
+
+    void rotate();
 };
 
 

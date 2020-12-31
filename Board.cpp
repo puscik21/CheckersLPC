@@ -122,7 +122,7 @@ void Board::makeCaptureMove(MoveCords moveCords) {
 
 void Board::makeEnemyMove(string cordText) {
     MoveCords moveCords = MoveCords::fromString(std::move(cordText));
-    // TODO make some symmetry of cords for enemy move
+    moveCords.rotate();
     makeMove(moveCords);
 }
 

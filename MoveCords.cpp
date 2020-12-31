@@ -42,3 +42,10 @@ int MoveCords::getToRow() const {
 int MoveCords::getToCol() const {
     return toCol;
 }
+
+void MoveCords::rotate() {
+    fromRow = 9 - fromRow;
+    fromCol = 9 - fromCol;
+    toRow = 9 - toRow;
+    toCol = 9 - toCol;
+}
