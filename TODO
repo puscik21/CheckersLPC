@@ -1,0 +1,21 @@
+Wyswietlanie:
+	- jak przedstawic warcaba na szachownicy (na poczatku chbya kwadrat a pozniej mozna pomyslec o kole)
+	- odswiezanie mapy po ruchu - warcaby na miejscach gdzie powinny byc
+	- zamiana w krolowa - jakies inaczej ja przedstawic
+	- zaznaczanie wybranego pionka
+	- ogarniecie fajnej metody do pisania tekstu na ekranie
+	- (jesli wystarczy czasu) zaznaczanie pozycji na ktore mozemy sie ruszyc
+	
+	
+komunikacja UART:
+	wyslanie ruchu - z drugiej strony nasluchiwanie
+	2 przyciski - utworz gre, dolacz do gry
+
+
+Mechaniki:
+	Królowa - inny zestaw ruchow, inne metody ruchu - moze jakas klasa dziedziczaca po Field
+
+
+Touchpad:
+	sczytywanie wspolrzednych z touchpada (chyba z jakims usrednianiem czytanych wspolrzednych)
+	(jesli bedzie potrzebna) kalibracja touchpada
