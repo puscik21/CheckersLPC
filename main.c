@@ -7,8 +7,47 @@
 #include "asciiLib.h"
 #include "TP_Open1768.h"
 
+typedef struct MoveCords {
+	  int fromRow;
+    int fromCol;
+    int toRow;
+    int toCol;
+} MoveCords;
+
+void addPawns(int startRow, int pawnValue);
+void setLcdPawnPosition(int row, int col);
+bool makePlayerMove(MoveCords moveCords);
+bool isPlayerToEmptyMove(MoveCords moveCords);
+int abs (int value);
+int getBetweenField(MoveCords moveCords);
+void makeMove(MoveCords moveCords);
+void drawPawn(int row, int col, int playerNumber);
+void drawPawnAndClear(MoveCords moveCords, int playerNumber);
+	
+//
+char* getField(bool isFieldBlack);
+
+bool isPlayerToEmptyMove(MoveCords moveCords);
+
+static bool isSimpleMoveAvailable(MoveCords moveCords);
+
+bool isJumpMoveAvailable(MoveCords moveCords);
+
+//Field *getBetweenField(MoveCords moveCords);
+
+
+
+void makeCaptureMove(MoveCords moveCords);
+
+//void makeEnemyMove(char* cordText);
+
+//int checkWinner();
+//
+
 int const SQUARE_SIZE_X = 24;
 int const SQUARE_SIZE_Y = 32;
+int pawns[10][10];
+int numberOfTouches = 0;
 
 int sleep() {
 	int times = 10000000;
@@ -43,15 +82,15 @@ int EINT0_IRQHandler () {
 	sent_str("a");
 }
 
-int writeSquareLine(uint16_t colorIndex) {
+int writeSquareLine(int length, uint16_t colorIndex) {
 	int j = 0;
-	for (j = 0; j < SQUARE_SIZE_X; j++) {
+	for (j = 0; j < length; j++) {
 		lcdWriteIndex(DATA_RAM);
 		lcdWriteData(colorIndex);
 	}
 }
 
-int prepareBoard() {
+int drawBoard() {
 	lcdWriteIndex(ADRX_RAM);
 	lcdWriteData(0);
 	lcdWriteIndex(ADRY_RAM);
@@ -65,14 +104,236 @@ int prepareBoard() {
 		for (j = 0; j < SQUARE_SIZE_Y; j++) {
 			for (k = 0; k < 5; k++) {
 				if (i % 2 == 0) {
-					writeSquareLine(LCDBlueSea);
-					writeSquareLine(LCDWhite);
+					writeSquareLine(SQUARE_SIZE_X, LCDBlueSea);
+					writeSquareLine(SQUARE_SIZE_X, LCDWhite);
 				} else {
-					writeSquareLine(LCDWhite);
-					writeSquareLine(LCDBlueSea);
+					writeSquareLine(SQUARE_SIZE_X, LCDWhite);
+					writeSquareLine(SQUARE_SIZE_X, LCDBlueSea);
 				}
 			}
 		}
+	}
+}
+
+void preparePawns() {
+		addPawns(0, -1);
+    for (int i = 4; i < 6; i++) {
+			for (int j = 0; j < 10; j++) {
+					pawns[i][j] = 0;
+			}
+    }
+		addPawns(6, 1);
+}
+
+void addPawns(int startRow, int pawnValue) {
+    bool isPawnPosition = false;
+    for (int i = startRow; i < startRow + 4; i++) {
+        isPawnPosition = !isPawnPosition;
+        for (int j = 0; j < 10; j++) {
+            int playerNumber = isPawnPosition * pawnValue;
+						pawns[i][j] = playerNumber;
+            isPawnPosition = !isPawnPosition;
+        }
+    }
+}
+
+void setLcdPawnPosition(int row, int col) {
+	lcdWriteIndex(ADRX_RAM);
+	lcdWriteData(row * SQUARE_SIZE_X + SQUARE_SIZE_X / 5);
+	lcdWriteIndex(ADRY_RAM);
+	lcdWriteData(col * SQUARE_SIZE_Y + SQUARE_SIZE_Y / 4);
+}
+
+void setLcdFieldPosition(int row, int col) {
+	lcdWriteIndex(ADRX_RAM);
+	lcdWriteData(row * SQUARE_SIZE_X);
+	lcdWriteIndex(ADRY_RAM);
+	lcdWriteData(col * SQUARE_SIZE_Y);
+}
+
+void drawPawns() {
+	int i, j;
+	for (i = 0; i < 10; i++) {
+		for (j = 0; j < 10; j++) {
+			int playerNumber = pawns[i][j];
+			if (playerNumber != 0) {
+				drawPawn(i, j, playerNumber);
+			}
+		}
+	}
+}
+
+void drawPawn(int row, int col, int playerNumber) {
+	setLcdPawnPosition(row, col);
+	int j = 0;
+	for (j = 0; j < 16; j++) {
+		if (playerNumber < 0) {
+			writeSquareLine(16, LCDBlack);
+		} else {
+			writeSquareLine(16, LCDYellow);
+		}
+		lcdWriteIndex(ADRY_RAM);
+		lcdWriteData(col * SQUARE_SIZE_Y + SQUARE_SIZE_Y / 4 + j);
+	}
+}
+
+void drawPawnAndClear(MoveCords moveCords, int playerNumber) {
+	drawPawn(moveCords.toRow, moveCords.toCol, playerNumber);
+	setLcdFieldPosition(moveCords.fromRow, moveCords.fromCol);
+	int i;
+	for (i = 0; i < SQUARE_SIZE_Y; i++) {
+		writeSquareLine(SQUARE_SIZE_X, LCDBlueSea);
+		lcdWriteIndex(ADRY_RAM);
+		lcdWriteData(moveCords.fromCol * SQUARE_SIZE_Y + i + 1);
+	}
+}
+
+
+bool makePlayerMove(MoveCords moveCords) {
+    if (!isPlayerToEmptyMove(moveCords)) {
+        return false;
+    }
+    if (isSimpleMoveAvailable(moveCords)) {
+        makeMove(moveCords);
+    } else if (isJumpMoveAvailable(moveCords)) {
+        makeCaptureMove(moveCords);
+    } else {
+        return false;
+    }
+    return true;
+}
+
+// TODO probably later it will be like isToEmptyFieldMove() - cuz only player pawn will be able to choose
+bool isPlayerToEmptyMove(MoveCords moveCords) {
+    int fromField = pawns[moveCords.fromRow][moveCords.fromCol];
+    int toField = pawns[moveCords.toRow][moveCords.toCol];
+    return fromField > 0 && toField == 0;
+}
+
+bool isSimpleMoveAvailable(MoveCords moveCords) {
+    return moveCords.fromRow - moveCords.toRow == 1 &&
+           abs(moveCords.fromCol - moveCords.toCol) == 1;
+}
+
+int abs (int value) {
+	if (value < 0) {
+		return value * -1;
+	} else {
+		return value;
+	}
+}
+
+bool isJumpMoveAvailable(MoveCords moveCords) {
+    if (moveCords.fromRow - moveCords.toRow == 2 && abs(moveCords.fromCol - moveCords.toCol) == 2) {
+        int betweenField = getBetweenField(moveCords);
+        return betweenField < 0;
+    }
+    return false;
+}
+
+int getBetweenField(MoveCords moveCords) {
+    int betweenCol;
+    if (moveCords.fromCol > moveCords.toCol) {
+        betweenCol = moveCords.fromCol - 1;
+    } else {
+        betweenCol = moveCords.fromCol + 1;
+    }
+    return pawns[moveCords.fromRow - 1][betweenCol];
+}
+
+
+
+/// reszta
+void makeMove(MoveCords moveCords) {
+    int playerNumber = pawns[moveCords.fromRow][moveCords.fromCol];
+    pawns[moveCords.fromRow][moveCords.fromCol] = 0;
+    pawns[moveCords.toRow][moveCords.toCol] = playerNumber;
+}
+
+
+void makeCaptureMove(MoveCords moveCords) {
+	/*
+    int betweenField = getBetweenField(moveCords);
+    betweenField->setPlayerNumber(0);
+    makeMove(moveCords);
+	*/
+}
+
+/*
+void makeEnemyMove(string cordText) {
+    MoveCords moveCords = MoveCords::fromString(std::move(cordText));
+    moveCords.rotate();
+    makeMove(moveCords);
+}
+
+int checkWinner() {
+    int playerPawns = 0;
+    int enemyPawns = 0;
+    for (const vector<Field> &row : pawns) {
+        for (Field field : row) {
+            if (field.getPlayerNumber() > 0) {
+                playerPawns++;
+            } else if (field.getPlayerNumber() < 0) {
+                enemyPawns++;
+            }
+        }
+    }
+
+    if (playerPawns == 0) {
+        return -1;
+    } else if (enemyPawns == 0) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+*/
+//
+
+void sentStr(char* str) {
+	while (*str != NULL) {
+		if (LPC_UART0->LSR & 64) {
+			LPC_UART0->THR = *str;
+			str++;
+		}
+	}
+}
+
+void pawnsToUart() {
+	int i, j;
+	for (i = 0; i < 10; i++) {
+		for (j = 0; j < 10; j++) {
+			char c = pawns[i][j] + '0';
+				sentStr(&c);
+		}
+		sentStr("\r\n");
+	}
+}
+
+int EINT3_IRQHandler() {
+	//sent_str("a");
+	
+	char buf[100];
+	int x = touchpanelReadX();
+	int y = touchpanelReadY();
+	sprintf(buf, "x=%d, y=%d\r\n", x, y);
+	sent_str(buf);
+	sleep();
+	
+	LPC_GPIOINT->IO0IntClr = 1 << 19;
+}
+
+void initTouchPad() {
+	touchpanelInit();
+	LPC_GPIOINT->IO0IntEnF = 1 << 19;
+	NVIC_EnableIRQ(EINT3_IRQn);
+	//NVIC_DisableIRQ(EINT3_IRQn);
+}
+
+void touchPadCalibration() {
+	drawPawn(0, 0, 1);
+	while(numberOfTouches < 4) {
+		
 	}
 }
 
@@ -81,10 +342,34 @@ int main() {
 	lcdConfiguration();
 	uint16_t val = lcdReadReg(OSCIL_ON);
 	init_ILI9325();
-	prepareBoard();
+	initTouchPad();
+	
+	void touchPadCalibration();
+	
+	preparePawns();
+	drawBoard();
+	drawPawns();
+	MoveCords moveCords = {6, 0, 5, 1};
+	//MoveCords moveCords = {6, 1, 4, 3};
+	makePlayerMove(moveCords);
+	//drawPawns();
+	drawPawnAndClear(moveCords, 1);
+	//pawnsToUart();
+	
+	
+		
+
+		
 	
 	while(1) {
-
+		/*
+		char buf[100];
+		int x = touchpanelReadX();
+		int y = touchpanelReadY();
+		sprintf(buf, "x=%d, y=%d\r\n", x, y);
+		sent_str(buf);
+		sleep();
+		*/
 	}
 	return 0;
 }
