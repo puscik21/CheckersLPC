@@ -14,9 +14,9 @@ typedef struct MoveCords {
     int toCol;
 } MoveCords;
 
-typedef struct Point{
-		int x;
-		int y;
+typedef struct Point {
+    int x;
+    int y;
 } Point;
 
 // utils
@@ -26,16 +26,28 @@ void sentStr(char *str);
 
 int abs(int value);
 
-void pawnsToUart(); // TODO to be removed after tests
+int min (int a, int b);
+
+int max (int a, int b);
+
+// TODO remove after tests
+void pawnsToUart();
+
+// TODO remove after tests
+void sentToUART();
 
 // definitions
-void toolsInit();
+void initTools();
 
-void uartInit();
+void initUart();
 
 void initTouchPad();
 
 void touchPadCalibration();
+
+void drawCalibrationPoint();
+
+void setLcdPointer(int x, int y);
 
 void preparePawns();
 
@@ -53,6 +65,8 @@ void setLcdPawnPosition(int row, int col);
 
 Point getTouchpadPosition();
 
+bool isItPlayerPawn(Point cords);
+
 bool makePlayerMove(MoveCords moveCords);
 
 bool isPlayerToEmptyMove(MoveCords moveCords);
@@ -65,17 +79,31 @@ bool isJumpMoveAvailable(MoveCords moveCords);
 
 void makeCaptureMove(MoveCords moveCords);
 
-int getBetweenField(MoveCords moveCords);
+Point getBetweenFieldCords(MoveCords moveCords);
 
 void drawPawnAndClear(MoveCords moveCords, int playerNumber);
+
+void clearPawnFromLcd(int row, int col);
 
 void setLcdFieldPosition(int row, int col);
 
 void makeEnemyMove(char *cordText);
 
+MoveCords makeCordsFromString(char *cordText);
+
+MoveCords rotate(MoveCords moveCords);
+
 int checkWinner();
 
 int EINT3_IRQHandler();
+
+void saveCalibrationPoint(int x, int y);
+
+void makePlayerTurn(int x, int y);
+
+void processPlayerToCords();
+
+void processPlayerFromCords();
 
 
 //////////////////////////////////////////    INITIALIZATION    //////////////////////////////////////////
@@ -92,7 +120,7 @@ int yMinTouch;
 Point currentPosition;
 Point previousPosition;
 bool isPlayerTurn;
-bool hasPreviousMove = 0;
+bool hasPreviousMove = false;
 
 
 int sleep() {
@@ -121,6 +149,22 @@ int abs(int value) {
     }
 }
 
+int min (int a, int b) {
+    if (a <= b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+
+int max (int a, int b) {
+    if (a >= b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+
 void pawnsToUart() {
     int i, j;
     for (i = 0; i < 10; i++) {
@@ -132,8 +176,17 @@ void pawnsToUart() {
     }
 }
 
-void toolsInit() {
-    uartInit();
+void sentToUART() {
+    int i;
+    for (i = 0; i < 4; i++) {
+        char buf[100];
+        sprintf(buf, "x=%d, y=%d\r\n", calibration[i].x, calibration[i].y);
+        sentStr(buf);
+    }
+}
+
+void initTools() {
+    initUart();
     lcdConfiguration();
     uint16_t val = lcdReadReg(OSCIL_ON);
     init_ILI9325();
@@ -141,7 +194,7 @@ void toolsInit() {
     touchPadCalibration();
 }
 
-void uartInit() {
+void initUart() {
     LPC_UART0->LCR = 1 << 7;
     LPC_UART0->DLM = 0;
     LPC_UART0->DLL = 12;
@@ -158,54 +211,42 @@ void initTouchPad() {
     //NVIC_DisableIRQ(EINT3_IRQn);
 }
 
-void sentToUART(){
-	int i;
-	for(i=0;i<4;i++){
-		char buf[100];
-		sprintf(buf, "x=%d, y=%d\r\n", calibration[i].x, calibration[i].y);
-		sentStr(buf);
-	}
-}
-
-void drawCalibrationPoint(){
-	lcdWriteIndex(ADRX_RAM);
-	lcdWriteData(0);
-	lcdWriteIndex(ADRY_RAM);
-	lcdWriteData(0);
-	lcdWriteIndex(DATA_RAM);
-	int i;
-	for (i = 0; i < 240*320; i++) {
-		lcdWriteData(LCDWhite);
-	}
-	if(numberOfTouches==0)
-	{
-		drawPawn(0, 0, -1);
-	}
-	else if(numberOfTouches==1)
-	{
-		drawPawn(9, 0, -1);
-	}
-	else if(numberOfTouches==2)
-	{
-		drawPawn(9, 9, -1);
-	}
-	else if(numberOfTouches==3)
-	{
-		drawPawn(0, 9, -1);
-	}	
-}
-
 void touchPadCalibration() {
     drawCalibrationPoint();
-		isCalibrationOn = 1;
+    isCalibrationOn = 1;
     while (numberOfTouches < 4) {
-				
+
     }
-		isCalibrationOn = 0;
-		xMinTouch = (calibration[0].x + calibration[3].x)/2;
-		yMinTouch = (calibration[0].y + calibration[1].y)/2;
-		xMaxTouch = (calibration[1].x + calibration[2].x)/2;
-		yMaxTouch = (calibration[2].y + calibration[3].y)/2;
+    isCalibrationOn = 0;
+    xMinTouch = (calibration[0].x + calibration[3].x) / 2;
+    yMinTouch = (calibration[0].y + calibration[1].y) / 2;
+    xMaxTouch = (calibration[1].x + calibration[2].x) / 2;
+    yMaxTouch = (calibration[2].y + calibration[3].y) / 2;
+}
+
+void drawCalibrationPoint() {
+    setLcdPointer(0, 0);
+    int i;
+    for (i = 0; i < 240 * 320; i++) {
+        lcdWriteData(LCDWhite);
+    }
+    if (numberOfTouches == 0) {
+        drawPawn(0, 0, -1);
+    } else if (numberOfTouches == 1) {
+        drawPawn(9, 0, -1);
+    } else if (numberOfTouches == 2) {
+        drawPawn(9, 9, -1);
+    } else if (numberOfTouches == 3) {
+        drawPawn(0, 9, -1);
+    }
+}
+
+void setLcdPointer(int x, int y) {
+    lcdWriteIndex(ADRX_RAM);
+    lcdWriteData(x);
+    lcdWriteIndex(ADRY_RAM);
+    lcdWriteData(y);
+    lcdWriteIndex(DATA_RAM);
 }
 
 void preparePawns() {
@@ -231,14 +272,8 @@ void addPawns(int startRow, int pawnValue) {
 }
 
 int drawBoard() {
-    lcdWriteIndex(ADRX_RAM);
-    lcdWriteData(0);
-    lcdWriteIndex(ADRY_RAM);
-    lcdWriteData(0);
-
-    int i = 0;
-    int j = 0;
-    int k = 0;
+    setLcdPointer(0, 0);
+    int i, j, k;
     for (i = 0; i < 10; i++) {
         for (j = 0; j < SQUARE_SIZE_Y; j++) {
             for (k = 0; k < 5; k++) {
@@ -289,40 +324,33 @@ void drawPawn(int row, int col, int playerNumber) {
 }
 
 void setLcdPawnPosition(int row, int col) {
-    lcdWriteIndex(ADRX_RAM);
-    lcdWriteData(row * SQUARE_SIZE_X + SQUARE_SIZE_X / 5);
-    lcdWriteIndex(ADRY_RAM);
-    lcdWriteData(col * SQUARE_SIZE_Y + SQUARE_SIZE_Y / 4);
+    int x = row * SQUARE_SIZE_X + SQUARE_SIZE_X / 5;
+    int y = col * SQUARE_SIZE_Y + SQUARE_SIZE_Y / 4;
+    setLcdPointer(x, y);
 }
 
-Point getTouchpadPosition(Point position){
-		int x;
-		int y;
-		x = 10*(position.x - xMinTouch)/(xMaxTouch - xMinTouch);
-		y = 10*(position.y - yMinTouch)/(yMaxTouch - yMinTouch);
-		if(x < 0){
-			x = 0;
-		}
-		if(y < 0){
-			y = 0;
-		}
-		if(x > 9){
-			x = 9;
-		}
-		if(y > 9){
-			y = 9;
-		}
-		char buf[100];
-		sprintf(buf, "row=%d, col=%d\r\n", x, y);
-		sentStr(buf);
-		Point cords;
-		cords.x = x;
-		cords.y = y;
-		return cords;
+Point getTouchpadPosition(Point position) {
+    int x, y;
+    x = 10 * (position.x - xMinTouch) / (xMaxTouch - xMinTouch);
+    y = 10 * (position.y - yMinTouch) / (yMaxTouch - yMinTouch);
+    x = min(x, 9);
+    x = max(x, 0);
+    y = min(y, 9);
+    y = max(y, 0);
+
+    // TODO remove after tests
+    char buf[100];
+    sprintf(buf, "row=%d, col=%d\r\n", x, y);
+    sentStr(buf);
+
+    Point cords;
+    cords.x = x;
+    cords.y = y;
+    return cords;
 }
 
-int isItPlayerPawn(Point cords){
-		return pawns[cords.x][cords.y] > 0;
+bool isItPlayerPawn(Point cords) {
+    return pawns[cords.x][cords.y] > 0;
 }
 
 bool makePlayerMove(MoveCords moveCords) {
@@ -336,7 +364,7 @@ bool makePlayerMove(MoveCords moveCords) {
     } else {
         return false;
     }
-		drawPawnAndClear(moveCords, 1);
+    drawPawnAndClear(moveCords, 1);
     return true;
 }
 
@@ -356,91 +384,98 @@ void makeMove(MoveCords moveCords) {
     int playerNumber = pawns[moveCords.fromRow][moveCords.fromCol];
     pawns[moveCords.fromRow][moveCords.fromCol] = 0;
     pawns[moveCords.toRow][moveCords.toCol] = playerNumber;
+    drawPawnAndClear(moveCords, playerNumber);    // TODO TEST - czy po ruchu pionki przerysowuja sie
 }
 
 bool isJumpMoveAvailable(MoveCords moveCords) {
     if (moveCords.fromRow - moveCords.toRow == 2 && abs(moveCords.fromCol - moveCords.toCol) == 2) {
-        int betweenField = getBetweenField(moveCords);
-        return betweenField < 0;
+        Point betweenFieldCords = getBetweenFieldCords(moveCords);
+        return pawns[betweenFieldCords.x][betweenFieldCords.y] < 0;
     }
     return false;
 }
 
+// TODO TEST - pisane w domu, wiec trzeba sprawdzic czy dziala, zwlaszcza czy czysci wrogiego pionka
 void makeCaptureMove(MoveCords moveCords) {
-    /*
-    int betweenField = getBetweenField(moveCords);
-    betweenField->setPlayerNumber(0);
     makeMove(moveCords);
-    */
+    Point betweenFieldCords = getBetweenFieldCords(moveCords);
+    pawns[betweenFieldCords.x][betweenFieldCords.y] = 0;
+    clearPawnFromLcd(betweenFieldCords.x, betweenFieldCords.y);
 }
 
-int getBetweenField(MoveCords moveCords) {
+Point getBetweenFieldCords(MoveCords moveCords) {
     int betweenCol;
     if (moveCords.fromCol > moveCords.toCol) {
         betweenCol = moveCords.fromCol - 1;
     } else {
         betweenCol = moveCords.fromCol + 1;
     }
-    return pawns[moveCords.fromRow - 1][betweenCol];
+    Point fieldCords;
+    fieldCords.x = moveCords.fromRow - 1;
+    fieldCords.y = betweenCol;
+    return fieldCords;
 }
 
 void drawPawnAndClear(MoveCords moveCords, int playerNumber) {
     drawPawn(moveCords.toRow, moveCords.toCol, playerNumber);
-    setLcdFieldPosition(moveCords.fromRow, moveCords.fromCol);
+    clearPawnFromLcd(moveCords.fromRow, moveCords.fromCol);
+}
+
+// TODO TEST - sprawdzic czy czyszczenie z planszy dziala
+void clearPawnFromLcd(int row, int col) {
+    setLcdFieldPosition(row, col);
     int i;
     for (i = 0; i < SQUARE_SIZE_Y; i++) {
         writeSquareLine(SQUARE_SIZE_X, LCDBlueSea);
         lcdWriteIndex(ADRY_RAM);
-        lcdWriteData(moveCords.fromCol * SQUARE_SIZE_Y + i + 1);
+        lcdWriteData(col * SQUARE_SIZE_Y + i + 1);
     }
 }
 
 void setLcdFieldPosition(int row, int col) {
-    lcdWriteIndex(ADRX_RAM);
-    lcdWriteData(row * SQUARE_SIZE_X);
-    lcdWriteIndex(ADRY_RAM);
-    lcdWriteData(col * SQUARE_SIZE_Y);
+    int x = row * SQUARE_SIZE_X;
+    int y = col * SQUARE_SIZE_Y;
+    setLcdPointer(x, y);
 }
 
-MoveCords makeCordsFromString(char* cordText){
-	MoveCords moveCords;
-	//moveCords.fromRow = atoi(cordText[0]);
-	//moveCords.fromCol = atoi(cordText[2]);
-	//moveCords.toRow = atoi(cordText[4]);
-	//moveCords.toCol = atoi(cordText[6]);
-	moveCords.fromRow = cordText[0] - 48;
-	moveCords.fromCol = cordText[2] - 48;
-	moveCords.toRow = cordText[4] - 48;
-	moveCords.toCol = cordText[6] - 48;
-	return moveCords;
-}
-
-MoveCords rotate(MoveCords moveCords){
-		moveCords.fromRow = 9 - moveCords.fromRow;
-    moveCords.fromCol = 9 - moveCords.fromCol;
-    moveCords.toRow = 9 - moveCords.toRow;
-    moveCords.toCol = 9 - moveCords.toCol;
-		return moveCords;
-}
-
+// TODO TEST sprawdzic przerysowywanie, potem usunac sprintf()
 void makeEnemyMove(char *cordText) {
     MoveCords moveCords = makeCordsFromString(cordText);
     moveCords = rotate(moveCords);
-		char buf[100];
-		sprintf(buf, "x=%d, y=%d, x2=%d, y2=%d\r\n", moveCords.fromRow, moveCords.fromCol, moveCords.toRow, moveCords.toCol);
-		sentStr(buf);
+    char buf[100];
+    sprintf(buf, "x=%d, y=%d, x2=%d, y2=%d\r\n", moveCords.fromRow, moveCords.fromCol, moveCords.toRow,
+            moveCords.toCol);
+    sentStr(buf);
     makeMove(moveCords);
 }
 
+MoveCords makeCordsFromString(char *cordText) {
+    MoveCords moveCords;
+    moveCords.fromRow = cordText[0] - 48;
+    moveCords.fromCol = cordText[2] - 48;
+    moveCords.toRow = cordText[4] - 48;
+    moveCords.toCol = cordText[6] - 48;
+    return moveCords;
+}
+
+MoveCords rotate(MoveCords moveCords) {
+    moveCords.fromRow = 9 - moveCords.fromRow;
+    moveCords.fromCol = 9 - moveCords.fromCol;
+    moveCords.toRow = 9 - moveCords.toRow;
+    moveCords.toCol = 9 - moveCords.toCol;
+    return moveCords;
+}
+
+// TODO TEST - poprawiane w domu, wiec trzeba sprawdzic czy dziala
 int checkWinner() {
-    /*
     int playerPawns = 0;
     int enemyPawns = 0;
-    for (const vector<Field> &row : pawns) {
-        for (Field field : row) {
-            if (field.getPlayerNumber() > 0) {
+    int i, j;
+    for (i = 0; i < 10; i++) {
+        for (j = 0; j < 10; j++) {
+            if (pawns[i][j] > 0) {
                 playerPawns++;
-            } else if (field.getPlayerNumber() < 0) {
+            } else if (pawns[i][j] < 0) {
                 enemyPawns++;
             }
         }
@@ -453,66 +488,77 @@ int checkWinner() {
     } else {
         return 0;
     }
-     */
 }
 
 int EINT3_IRQHandler() {
-			char buf[100];
-			int x = touchpanelReadY();
-			int y = touchpanelReadX();
-			sprintf(buf, "x=%d, y=%d\r\n", x, y);
-			sentStr(buf);
-    if(isCalibrationOn){
-			calibration[numberOfTouches].x = x;
-			calibration[numberOfTouches].y = y;
-			numberOfTouches++;
-			drawCalibrationPoint();
-		}
-		else if(isPlayerTurn){
-			previousPosition.x = currentPosition.x;
-			previousPosition.y = currentPosition.y;
-			currentPosition.x = x;
-			currentPosition.y = y;
-			if(hasPreviousMove){
-				Point fromCord = getTouchpadPosition(previousPosition);
-				Point toCord = getTouchpadPosition(currentPosition);
-				MoveCords currentCords = {fromCord.x, fromCord.y, toCord.x, toCord.y};
-				bool isCorrectMove = makePlayerMove(currentCords);
-				hasPreviousMove = false;
-				if(isCorrectMove){
-					//isPlayerTurn = false;
-				}
-			}
-			else{
-				Point cords = getTouchpadPosition(currentPosition);
-				int isPlayerPawn = isItPlayerPawn(cords);
-				if(isPlayerPawn){
-					hasPreviousMove = true;
-				}
-				sprintf(buf, "isPlayerPawn=%d\r\n", isPlayerPawn);
-				sentStr(buf);
-			}
-		}
-			sleep();
+    int x = touchpanelReadY();
+    int y = touchpanelReadX();
+    // TODO remove printing after tests
+    char buf[100];
+    sprintf(buf, "x=%d, y=%d\r\n", x, y);
+    sentStr(buf);
+    if (isCalibrationOn) {
+        saveCalibrationPoint(x, y);
+    } else if (isPlayerTurn) {
+        makePlayerTurn(x, y);
+    }
+    sleep();
+    LPC_GPIOINT->IO0IntClr = 1 << 19;
+}
 
-			LPC_GPIOINT->IO0IntClr = 1 << 19;
+void saveCalibrationPoint(int x, int y) {
+    calibration[numberOfTouches].x = x;
+    calibration[numberOfTouches].y = y;
+    numberOfTouches++;
+    drawCalibrationPoint();
+}
+
+void makePlayerTurn(int x, int y) {
+    previousPosition.x = currentPosition.x;
+    previousPosition.y = currentPosition.y;
+    currentPosition.x = x;
+    currentPosition.y = y;
+    if (hasPreviousMove) {
+        processPlayerToCords();
+    } else {
+        processPlayerFromCords();
+    }
+}
+
+void processPlayerToCords() {
+    Point fromCord = getTouchpadPosition(previousPosition);
+    Point toCord = getTouchpadPosition(currentPosition);
+    MoveCords currentCords = {fromCord.x, fromCord.y, toCord.x, toCord.y};
+    bool isMoveCorrect = makePlayerMove(currentCords);
+    hasPreviousMove = false;
+    if (isMoveCorrect) {
+        //isPlayerTurn = false; // TODO enable after addition of enemy movement
+    }
+}
+
+void processPlayerFromCords() {
+    Point cords = getTouchpadPosition(currentPosition);
+    int isPlayerPawn = isItPlayerPawn(cords);
+    if (isPlayerPawn) {
+        hasPreviousMove = true;
+    }
+    sprintf(buf, "isPlayerPawn=%d\r\n", isPlayerPawn);
+    sentStr(buf);
 }
 
 
 int main() {
-    toolsInit();
+    initTools();
     preparePawns();
     drawBoard();
     drawPawns();
-		isPlayerTurn = true;
-		makeEnemyMove("6,0,5,1");
-		MoveCords moveCords = {6,0,5,1};
-		makePlayerMove(moveCords);
-		drawPawns();
+    isPlayerTurn = true;
+    makeEnemyMove("6,0,5,1");
+    MoveCords moveCords = {6, 0, 5, 1};
+    makePlayerMove(moveCords);
     //pawnsToUart();
 
     while (1) {
 
     }
-    return 0;
 }
