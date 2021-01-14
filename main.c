@@ -26,9 +26,9 @@ void sentStr(char *str);
 
 int abs(int value);
 
-int min (int a, int b);
+int min(int a, int b);
 
-int max (int a, int b);
+int max(int a, int b);
 
 // TODO remove after tests
 void pawnsToUart();
@@ -149,7 +149,7 @@ int abs(int value) {
     }
 }
 
-int min (int a, int b) {
+int min(int a, int b) {
     if (a <= b) {
         return a;
     } else {
@@ -157,7 +157,7 @@ int min (int a, int b) {
     }
 }
 
-int max (int a, int b) {
+int max(int a, int b) {
     if (a >= b) {
         return a;
     } else {
