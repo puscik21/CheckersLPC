@@ -1,0 +1,31 @@
+Kolejnosc:
+	- szybkie testy czy refactor nie zepsul czegos
+	- wyslanie ruchu przez uart
+	- czysczenie naszego pionka po zbiciu przez przeciwnika
+	- ogarniecie fajnej metody do pisania tekstu na ekranie
+	- 2 przyciski - utworz gre, dolacz do gry
+	- Królowa - inny zestaw ruchow
+	- zamiana w krolowa - jakies inaczej ja przedstawic
+	- zaznaczanie wybranego pionka
+	- (jesli wystarczy czasu) zaznaczanie pozycji na ktore mozemy sie ruszyc
+	- (jesli wystarczy czasu) jakis ladniejszy sposob na przedstawienie warcaba
+	
+	
+	
+
+Wyswietlanie:
+	- czysczenie naszego pionka po zbiciu przez przeciwnika
+	- ogarniecie fajnej metody do pisania tekstu na ekranie
+	- zamiana w krolowa - jakies inaczej ja przedstawic
+	- zaznaczanie wybranego pionka
+	- (jesli wystarczy czasu) zaznaczanie pozycji na ktore mozemy sie ruszyc
+	- (jesli wystarczy czasu) jakis ladniejszy sposob na przedstawienie warcaba
+	
+	
+komunikacja UART:
+	- wyslanie ruchu - z drugiej strony nasluchiwanie
+	- 2 przyciski - utworz gre, dolacz do gry
+
+
+Mechaniki:
+	- Królowa - inny zestaw ruchow, inne metody ruchu - moze jakas klasa dziedziczaca po Field
