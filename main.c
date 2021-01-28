@@ -84,13 +84,17 @@ void tryEnemyCaptureMove(char *cordText);
 
 Point takeCaptureCordFromString(char *cordText);
 
-int checkWinner();
+void checkWinner();
 
 int EINT3_IRQHandler();
 
 bool listenToEnemyStartPress();
 
 void listenToEnemyMove();
+
+void writeLetter(char letter, int x, int y, uint16_t color);
+
+void writeSentence(char* sent, int x, int y, uint16_t color);
 
 
 //////////////////////////////////////////    INITIALIZATION    //////////////////////////////////////////
@@ -122,6 +126,15 @@ int sleep(int multiply) {
 
 void sentStr(char *str) {
     while (*str != NULL) {
+        if (LPC_UART2->LSR & 64) {
+            LPC_UART2->THR = *str;
+            str++;
+        }
+    }
+}
+
+void sentStrDebug(char *str) {
+    while (*str != NULL) {
         if (LPC_UART0->LSR & 64) {
             LPC_UART0->THR = *str;
             str++;
@@ -142,9 +155,9 @@ void pawnsToUart() {
     for (i = 0; i < 10; i++) {
         for (j = 0; j < 10; j++) {
             char c = pawns[i][j] + '0';
-            sentStr(&c);
+            sentStrDebug(&c);
         }
-        sentStr("\r\n");
+        sentStrDebug("\r\n");
     }
 }
 
@@ -165,6 +178,14 @@ void uartInit() {
     LPC_UART0->LCR = 1 | 1 << 1 | 1 << 2;
     PIN_Configure(0, 2, PIN_FUNC_1, PIN_PINMODE_REPEATER, PIN_PINMODE_NORMAL);
     PIN_Configure(0, 3, PIN_FUNC_1, PIN_PINMODE_REPEATER, PIN_PINMODE_NORMAL);
+	
+		LPC_UART2->LCR = 1 << 7;
+    LPC_UART2->DLM = 0;
+    LPC_UART2->DLL = 12;
+    LPC_UART2->FDR = 15 << 4 | 2;
+    LPC_UART2->LCR = 1 | 1 << 1 | 1 << 2;
+    PIN_Configure(0, 10, PIN_FUNC_1, PIN_PINMODE_REPEATER, PIN_PINMODE_NORMAL);
+    PIN_Configure(0, 11, PIN_FUNC_1, PIN_PINMODE_REPEATER, PIN_PINMODE_NORMAL);
 }
 
 void initTouchPad() {
@@ -179,7 +200,7 @@ void sentToUART(){
 	for(i=0;i<4;i++){
 		char buf[100];
 		sprintf(buf, "x=%d, y=%d\r\n", calibration[i].x, calibration[i].y);
-		sentStr(buf);
+		sentStrDebug(buf);
 	}
 }
 
@@ -193,6 +214,9 @@ void drawCalibrationPoint(){
 	for (i = 0; i < 240*320; i++) {
 		lcdWriteData(LCDWhite);
 	}
+	char buf[100];
+	sprintf(buf, "Touchpad Configuration");
+	writeSentence(buf,60,110,LCDBlack);
 	if(numberOfTouches==0)
 	{
 		drawPawn(0, 0, -1);
@@ -328,11 +352,9 @@ Point getTouchpadPosition(Point position){
 		if(y > 9){
 			y = 9;
 		}
-		/*
 		char buf[100];
 		sprintf(buf, "row=%d, col=%d\r\n", x, y);
-		sentStr(buf);
-		*/
+		sentStrDebug(buf);
 		Point cords;
 		cords.x = x;
 		cords.y = y;
@@ -441,6 +463,17 @@ void clearPawnFromLcd(int row, int col) {
     }
 }
 
+void markPawnOnLcd(int row, int col, int playerNumber) {
+    setLcdFieldPosition(row, col);
+    int i;
+    for (i = 0; i < SQUARE_SIZE_Y; i++) {
+        writeSquareLine(SQUARE_SIZE_X, LCDRed);
+        lcdWriteIndex(ADRY_RAM);
+        lcdWriteData(col * SQUARE_SIZE_Y + i + 1);
+    }
+		drawPawn(row,col,playerNumber);
+}
+
 void setLcdFieldPosition(int row, int col) {
     lcdWriteIndex(ADRX_RAM);
     lcdWriteData(row * SQUARE_SIZE_X);
@@ -467,12 +500,11 @@ MoveCords rotate(MoveCords moveCords){
 
 void makeEnemyMove(char *cordText) {
     MoveCords moveCords = makeCordsFromString(cordText);
-    moveCords = rotate(moveCords);
-	/*	
+    moveCords = rotate(moveCords);	
 	char buf[100];
 		sprintf(buf, "x=%d, y=%d, x2=%d, y2=%d\r\n", moveCords.fromRow, moveCords.fromCol, moveCords.toRow, moveCords.toCol);
-		sentStr(buf);
-	*/
+		sentStrDebug(buf);
+
 		tryEnemyCaptureMove(cordText);
     makeMove(moveCords);
 }
@@ -497,7 +529,7 @@ Point takeCaptureCordFromString(char *cordText) {
 }
 
 
-int checkWinner() {
+void checkWinner() {
     int playerPawns = 0;
     int enemyPawns = 0;
     int i, j;
@@ -512,11 +544,11 @@ int checkWinner() {
     }
 
     if (playerPawns == 0) {
-        return -1;
+        isPlayerTurn = false;
+				writeSentence("You won!",100,110,LCDRed);
     } else if (enemyPawns == 0) {
-        return 1;
-    } else {
-        return 0;
+        isPlayerTurn = false;
+				writeSentence("Enemy won!",100,110,LCDRed);
     }
 }
 
@@ -524,10 +556,8 @@ int EINT3_IRQHandler() {
 			char buf[100];
 			int x = touchpanelReadY();
 			int y = touchpanelReadX();
-	/*
 			sprintf(buf, "x=%d, y=%d\r\n", x, y);
-			sentStr(buf);
-	*/
+			sentStrDebug(buf);
     if(isCalibrationOn){
 			calibration[numberOfTouches].x = x;
 			calibration[numberOfTouches].y = y;
@@ -548,17 +578,21 @@ int EINT3_IRQHandler() {
 				if(isCorrectMove){
 					isPlayerTurn = false;
 				}
+				else{
+					clearPawnFromLcd(fromCord.x,fromCord.y);
+					drawPawn(fromCord.x,fromCord.y,1);
+				}
 			}
 			else{
 				Point cords = getTouchpadPosition(currentPosition);
 				int isPlayerPawn = isItPlayerPawn(cords);
 				if(isPlayerPawn){
 					hasPreviousMove = true;
+					markPawnOnLcd(cords.x,cords.y,1);
 				}
-				/*
+				
 				sprintf(buf, "isPlayerPawn=%d\r\n", isPlayerPawn);
-				sentStr(buf);
-				*/
+				sentStrDebug(buf);
 			}
 		} else if (beforeGame) {
 			sprintf(buf, "1");
@@ -573,14 +607,30 @@ int EINT3_IRQHandler() {
 bool listenToEnemyStartPress() {
 		char buf[100];
 		while(1) {
-		if (LPC_UART0->LSR & 1) {
-			char input = LPC_UART0->RBR;
+		if (LPC_UART2->LSR & 1) {
+			char input = LPC_UART2->RBR;
+			strcat(buf, &input);
+			sentStrDebug(buf);
 			if (input == '1') {
 				isPlayerTurn = false;
 				beforeGame = false;
 				buf[0] = '\0';
+				sprintf(buf, "2");
+				sentStr(buf);
+				buf[0] = '\0';
+				drawBoard();
+				writeSentence("Enemy move!",100,110,LCDRed);
 				return false;
-			} else {
+			}
+			else if(input == '2') {
+				isPlayerTurn = true;
+				beforeGame = false;
+				buf[0] = '\0';
+				drawBoard();
+				writeSentence("Your move!",100,110,LCDRed);
+				return false;
+			}
+			else {
 				return true;
 			}
 		}
@@ -590,19 +640,14 @@ bool listenToEnemyStartPress() {
 void listenToEnemyMove() {
 		char buf[100];
 		while(1) {
-		if (LPC_UART0->LSR & 1) {
-			char input = LPC_UART0->RBR;
+		if (LPC_UART2->LSR & 1) {
+			char input = LPC_UART2->RBR;
 			if (input != '$') {
 				strcat(buf, &input);
 			} else {
 				makeEnemyMove(buf);
 				//makeEnemyMove("6,4,5,5|x,x \r\n");
-				
-				//while (1) {
-					//sentStr(buf);
-					//sleep(50);
-				//}
-				
+				sentStrDebug(buf);
 				isPlayerTurn = true;
 				buf[0] = '\0';
 				//sleep(50);
@@ -611,39 +656,53 @@ void listenToEnemyMove() {
 	}
 }
 
+void writeLetter(char letter, int x, int y, uint16_t color){
+	uint8_t buffor[16];
+	GetASCIICode(0, buffor, letter);
+	
+	int i,j,k;
+	k = 0;
+	for (i = 15; i >= 0; i--) {
+		lcdWriteIndex(ADRX_RAM);
+		lcdWriteData(k+y);
+		k++;
+		for (j = 8; j >= 0; j--) {
+			lcdWriteIndex(ADRY_RAM);
+			lcdWriteData(j+x);
+			if (buffor[i] & (256 >> j)) {
+				lcdWriteIndex(DATA_RAM);
+				lcdWriteData(color);
+			} 
+		}
+	}
+}
+
+void writeSentence(char* sent, int x, int y, uint16_t color){
+	int i = 0;
+	while(sent[i]!='\0'){
+		writeLetter(sent[i],x+i*9,y,color);
+		i++;
+	}
+}
+
 int main() {
     toolsInit();
     preparePawns();
-    drawBoard();
-    drawPawns();
-		isPlayerTurn = false; // to global
-
-		//makeEnemyMove("6,4,5,5|x,x \r\n");
-		/*
-		MoveCords moveCords1 = {6,0,5,1};
-		makePlayerMove(moveCords1);
-		sleep(50);
-		MoveCords moveCords2 = {5,1,4,2};
-		makePlayerMove(moveCords2);
-		
-		sleep(50);
-		makeEnemyMove("6,8,4,6|5,7");
-		
-		sleep(50);
-		MoveCords moveCords3 = {6,2,4,4};
-		makePlayerMove(moveCords3);
-	*/
+		drawBoard();
+		writeSentence("Press to start!",90,110,LCDRed);
+		//isPlayerTurn = false;
 		
 		
     //pawnsToUart();
 		
-		drawPawn(9, 0, -1);
-		
-		bool beforeGame = true;
+		//bool beforeGame = true;
     while (beforeGame) {
 			beforeGame = listenToEnemyStartPress();
     }
-		sentStr("wyszlo");
+		sleep(50);
+		drawBoard();
+    drawPawns();
+		sentStrDebug("wyszlo");
 		while (1) {
 			if (!isPlayerTurn) {
 				listenToEnemyMove();
